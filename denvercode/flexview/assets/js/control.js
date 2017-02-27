@@ -43,6 +43,10 @@ Control.prototype = {
 				$('#mds-border').css('top', vars.mdsTop + '%');
 			if (vars.mdsLeft)
 				$('#mds-border').css('left', vars.mdsLeft + '%');
+			if (vars.mdsWidth)
+				$('#mds-border').css('width', vars.mdsWidth + '%');
+			if (vars.mdsHeight)
+				$('#mds-border').css('height', vars.mdsHeight + '%');
 
 			$('#mds-border').css('display', 'block');
 			Mds_util.run_mds();
@@ -64,15 +68,22 @@ Control.prototype = {
 
 
 	createURL: function() {
-		/* Get the mds position */
-
+		/* Get as percent of screen to try to reduce issue of different screen
+		   size.
+		*/
 		var position = $('#mds-border').position();
 		var left = parseFloat((position.left / $(window).width() * 100).toFixed(2));
 		var top = parseFloat((position.top / $(window).height() * 100).toFixed(2));
+		var height = parseFloat($('#mds-border').height() / $(window).height() * 100)
+			.toFixed(2);
+		var width = parseFloat($('#mds-border').width() / $(window).width() * 100)
+			.toFixed(2);
 
 		options = {
 			'mdsTop': top,
-			'mdsLeft': left
+			'mdsLeft': left,
+			'mdsWidth': width,
+			'mdsHeight': height
 		};
 
 		if (this.searchControl._selectedSpecies.length) {

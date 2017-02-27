@@ -102,6 +102,6 @@ $(document).ready(function() {
 	var s = document.createElement('script');
 	s.src = 'https://www.nps.gov/lib/npmap.js/3.0.18/npmap-bootstrap.js';
 	document.body.appendChild(s);
-	$("#mds-border").draggable();
+	$("#mds-border").draggable().resizable();
 });
 });
