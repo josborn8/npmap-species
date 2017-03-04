@@ -8,6 +8,7 @@ import os
 
 
 @require_GET
+@gzip_page
 def index(request):
 	context = {
 		'DEBUG': settings.DEBUG,
