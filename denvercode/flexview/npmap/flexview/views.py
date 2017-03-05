@@ -21,6 +21,10 @@ def index(request):
 @gzip_page
 def mds(request):
 	try:
+		sim_type = request.POST.get('type')
+		if sim_type is None:
+			sim_type = 'ssi'
+
 		pathname = os.path.join(settings.STATICFILES_DIRS[0], 'data/sim_matrix.json')
 		sim_matrix_file = open(pathname, 'rb')
 		response = HttpResponse(content=sim_matrix_file)

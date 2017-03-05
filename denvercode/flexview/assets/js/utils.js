@@ -1,4 +1,4 @@
-define(['jquery', 'fuse'], function($, Fuse) {
+define(['jquery', 'fuse', 'mds_util'], function($, Fuse, MDS) {
 return {
 	prepareSearchTool: function(control) {
 		var self = this;
@@ -80,6 +80,15 @@ return {
 			window.prompt('Copy to clipboard: Ctrl+C, Enter', url);
 			$('#url_config').val(url);
 		});
+
+		$('select', '.metric-pick').change(function() {
+			$('svg').remove();
+
+			var type = $(this).val();
+			MDS.run_mds(type);
+		});
+
+
 	},
 
 	toggleSearchList: function(control, idx, callback) {

@@ -54,6 +54,13 @@
 </div>
 <div id='map'></div>
 <div id ='mds-border' class="ui-widge-content mds">
+	<div class="metric-pick">
+		<select>
+			<option value="ssi"> Sorenson Similarity Index </option>
+			<option value="time"> Observation Times </option>
+		</select>
+	</div>
+	<div id="mds-plot"></div>
 </div>
 <form>{% csrf_token %}</form>
 </body>

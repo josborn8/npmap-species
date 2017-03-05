@@ -436,5 +436,22 @@ body.dragging, body.dragging * {
 	max-width: 500px;
 	max-height: 500px;
 
+	min-width: 160px;
+	min-height: 296px;
+
 	margin: 0px;
 }
+
+.metric-pick {
+	height: 8%;
+	background: black;
+	max-height: 24px;
+
+}
+
+#mds-plot {
+	height: 92%;
+	top: 8%;
+}
+
+
