@@ -44,6 +44,7 @@ function ($, Util, Control, MDS) {
 
 $(document).ready(function() {
 	var control = new Control();
+	window.control = control;
 
 	window.NPMap = {
 		div: 'map',
@@ -81,6 +82,7 @@ $(document).ready(function() {
 		hooks: {
 			init: function(callback) {
 				control.initialize();
+				$('#search-initial').css('pointer-events', 'auto');
 				callback();
 			}
 		},

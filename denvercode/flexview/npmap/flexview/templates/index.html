@@ -30,24 +30,65 @@
 				<ul id='search-initial-dropdown-select'></ul>
 				<ul id='search-initial-dropdown-lex'></ul>
 			</div>
-			<div id='search-initial-switch' tooltip='Choose to show latin or common species names' data-intro='Choose to show common or latin names' data-position='bottom'>
-				<div><div class='search-initial-switch-sides'>COMMON</div></div>
-				<div><div class='search-initial-switch-sides'>LATIN</div></div>
-				<div id='search-initial-switch-button'>
-				<div ><span>...</span></div></div>
-			</div>
-			<div id='search-initial-altname'></div>
 		</div>
 	</div>
 	<div id="divider"></div>
+	<div id='search-compare'>
+		<div id='search-compare-contents'>
+			<fieldset>
+			<legend style="display:none">Select Species to Compare</legend>
+			<div id="search-compare-lexical" tooltip"Select another species that is known to exist in the park">
+				<label for="lexical-radio" class="hidden-label">Select Species by Name</label>
+				<input id="lexical-radio" type="radio" name="comparator" value="lexical" disabled></input>
+				<div class="subhead">COMPARE WITH</div>
+				<div class="subhead2">ANOTHER SPECIES IN THE PARK</div>
+				<div id="search-compare-one-dropdown" class="species-dropdown" tooltip="Select a species from the full list" data-intro="Select a species" data-position="right">
+					<label for="dropdown-one-input" class="hidden-label">Species Name</label>
+					<input id="dropdown-one-input" class="dropdown-input"></input>
+					<div class="dropdown-button">
+						<div class="triangle"></div>
+					</div>
+					<ul id='search-compare-one-dropdown-select'></ul>
+					<ul id='search-compare-one-dropdown-lex'></ul>
+				</div>
+				<div id='search-compare-two-dropdown' class='species-dropdown' tooltip='Select a species from the full ist' data-intro='Select a species' data-position='right'>
+					<label for='dropdown-two-input' class='hidden-label'>Species Name</label>
+					<input id='dropdown-two-input' class='dropdown-input'></input>
+					<div class='dropdown-button'>
+						<div class='triangle'></div>
+					</div>
+					<ul id='search-compare-two-dropdown-select'></ul>
+					<ul id='search-compare-two-dropdown-lex'></ul>
+				</div>
+			</div>
+			<div display="hidden" id='search-compare-distribution' tooltip='Select another species with similar habitat requirements across the park'>
+				<label for='dist-radio' class='hidden-label'>Select Species with Similar Distribution</label>
+				<input id='dist-radio' type='radio' name='comparator' value='distribution' disabled></input>
+				<div class='subhead'>COMPARE WITH</div>
+				<div class='subhead2'>SPECIES WITH SIMILAR DISTRIBUTION</div>
+				<div id='compare-dist-one'>
+					<div id='compare-dist-one-name'></div>
+					<div class='triangle'></div>
+					<ul></ul>
+				</div>
+				<div id='compare-dist-two'>
+					<div id='compare-dist-two-name'></div>
+					<div class='triangle'></div>
+					<ul></ul>
+				</div>
+			</div>
+		</fieldset>
+		</div>
+	</div>
 	<div id='link-gen' class='link-gen'>
 		<div class='link-gen-text link-gen-text'>
-			CONFIGURATION LINK <br/>
 			<div id="link-gen-link">
 				<button id="link-gen-button" class="fa fa-link"></button>
+				<!--
 				<div style="overflow: hidden; padding-left: .5em;">
 					<input id="url_config" aria-describedby="url_addon" type="text"/>
 				</div>
+				-->
 			</div>
 		</div>
 	</div>

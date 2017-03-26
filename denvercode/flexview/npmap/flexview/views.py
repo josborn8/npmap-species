@@ -25,7 +25,7 @@ def mds(request):
 		if sim_type is None:
 			sim_type = 'ssi'
 
-		pathname = os.path.join(settings.STATICFILES_DIRS[0], 'data/sim_matrix.json')
+		pathname = os.path.join(settings.STATICFILES_DIRS[0], 'data/sim_coords.json')
 		sim_matrix_file = open(pathname, 'rb')
 		response = HttpResponse(content=sim_matrix_file)
 		response['Content-Type'] = 'application/json'
