@@ -12,6 +12,7 @@ function Control() {
 	this.compareDistOneActive = false;
 	this.compareDistTwoActive = false;
 
+	this.speciesColor = ['rgb(202, 24, 146)', 'rgb(242, 142, 67)', 'rgb(29, 144, 156)'];
 
 	this.searchControl = {
 		_latinFuser: undefined,
@@ -53,7 +54,7 @@ Control.prototype = {
 				$('#mds-border').css('height', vars.mdsHeight + '%');
 
 			$('#mds-border').css('display', 'block');
-			Mds_util.run_mds();
+			Mds_util.run_mds('ssi', this);
 		}
 
 		if (vars.species) {
@@ -70,7 +71,6 @@ Control.prototype = {
 			if (vars.lex) {
 				$('#lexical-radio').trigger('click');
 
-				console.debug('first is here');
 				if (vars.first) {
 					try {
 						Util.selectSecondSpecies({
@@ -78,7 +78,7 @@ Control.prototype = {
 							_latin:  vars.first,
 							_common: this.getCommonName(vars.first)
 						}, this);
-					} catch(e) { debugger;}
+					} catch(e) {}
 				}
 				if (vars.second) {
 					try {
@@ -88,7 +88,6 @@ Control.prototype = {
 							_common: this.getCommonName(vars.second)
 						}, this);
 					} catch(e) {
-						debugger;
 					}
 				}
 			}
@@ -135,12 +134,12 @@ Control.prototype = {
 			options.species = this.searchControl._selectedSpecies[0]._latin;
 		}
 
-		if (this.searchControl._selectedSpecies[1] != undefined) {
+		if (this.searchControl._selectedSpecies[1] !== undefined) {
 			options.lex = true;
 			options.first = this.searchControl._selectedSpecies[1]._latin;
 		}
 
-		if (this.searchControl._selectedSpecies[2] != undefined) {
+		if (this.searchControl._selectedSpecies[2] !== undefined) {
 			options.second = this.searchControl._selectedSpecies[2]._latin;
 		}
 
@@ -172,7 +171,6 @@ Control.prototype = {
 						NPMap.config.L
 							.removeLayer(this.searchControl._selectedSpecies[idx].predicted);
 					} catch(e) {}
-					
 				}
 
 				this.searchControl._selectedSpecies[idx]
@@ -204,6 +202,32 @@ Control.prototype = {
 		} catch(e) {
 			return undefined;
 		}
+	},
+
+	run_mds: function(type) {
+		Mds_util.run_mds(type, this);
+	},
+
+	selectSpecies: function(species) {
+		Util.selectInitialSpecies(control, {
+			_id: control.getId(species),
+			_latin: species,
+			_common: control.getCommonName(species)
+		});
+	},
+
+	/* Put a border around the selected species */
+	highlightSpeciesImage: function(species, color) {
+		try {
+			$('#' + species + '_rect').css('stroke', color).css('stroke-width', 2);
+		} catch (e) { }
+	},
+
+	/* Remove the border around the selected species image */
+	removeSpeciesImageHighlight: function(species) {
+		try {
+			$('#' + species + '_rect').css('stroke', '').css('stroke-width', '');
+		} catch (e) { }
 	}
 };
 
