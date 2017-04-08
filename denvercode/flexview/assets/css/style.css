@@ -651,12 +651,12 @@ line-height: 20px;
 #search-compare {
 float: left;
 
-width: 602px;
+//width: 602px;
 height: 128px;
 margin: 10px 0px 10px 0px;
 padding: inherit;
 
-//border-left: 1px solid #40403d;
+border-left: 1px solid #40403d;
 }
 
 #search-compare-placeholder > div {
@@ -895,7 +895,6 @@ line-height: 20px;
 
 #search-compare-distribution {
 position: relative;
-display: none;
 float: left;
 
 box-sizing: border-box;
@@ -970,6 +969,7 @@ position: absolute;
 top: 57px;
 left: 225px;
 
+z-index: 1000;
 display: none;
 
 width: 245px;

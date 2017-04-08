@@ -36,7 +36,7 @@ return {
 			*/
 			if (control.searchControl._selectedSpecies[0] !== undefined) {
 				self.populateDistributionLists(control);
-				//$('#dist-radio').prop('disabled', false);
+				$('#dist-radio').prop('disabled', false);
 			}
 		});
 
@@ -124,8 +124,6 @@ return {
 			var type = $(this).val();
 			control.run_mds(type, control);
 		});
-
-
 	},
 
 	toggleSearchList: function(control, idx, callback) {
@@ -405,8 +403,8 @@ return {
 
 		/* If similar distributions are loaded then allow comparison */
 		if (control.searchControl._similarDistributions !== undefined) {
-			//this.populateDistributionLists(control);
-			//$('#dist-radio').prop('disabled', false);
+			this.populateDistributionLists(control);
+			$('#dist-radio').prop('disabled', false);
 		}
 		control.mdsPan(li._latin);
 
@@ -719,10 +717,9 @@ return {
 		this.clearCompareTwo(control);
 		$('#color-legend').stop();
 		$('#color-legend').animate({height:'100px'});
-		/*
+
 		if(control.searchControl._similarDistribution !== undefined)
 			this.populateDistributionLists(control);
-		*/
 	},
 
 	clearCompareOne: function(control) {
@@ -779,21 +776,18 @@ return {
 			}
 		}
 
-		/*
 		if(control.searchControl._similarDistribution !== undefined)
 			this.populateDistributionLists(control);
-		*/
 	},
 
 	populateDistributionLists: function(control) {
-		return;
 		var self = this;
 		document.getElementById('compare-dist-one').children[2].innerHTML = '';
 		document.getElementById('compare-dist-two').children[2].innerHTML = '';
 
 		if(control.searchControl._selectedSpecies[0] === undefined) {
 			return;
-		};
+		}
 
 		var sp = control.searchControl._selectedSpecies[0]._latin,
 		results = control.searchControl._similarDistributions[sp],
@@ -948,10 +942,8 @@ return {
 			}
 		}
 
-		/*
 		if(control.searchControl._similarDistribution !== undefined)
 			this.populateDistributionLists(control);
-		*/
 	},
 
 	distFocus: function(control) {
