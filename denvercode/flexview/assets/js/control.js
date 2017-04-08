@@ -1,4 +1,5 @@
-define(['jquery', 'query', 'utils', 'mds_util'], function($, Query, Util, Mds_util) {
+define(['jquery', 'query', 'utils', 'mds_util', 'd3'],
+function($, Query, Util, Mds_util, d3) {
 function Control() {
 	this.zoom = 6;
 	this.whichName = 'common';
@@ -11,8 +12,12 @@ function Control() {
 	this.mdsShow = true;
 	this.compareDistOneActive = false;
 	this.compareDistTwoActive = false;
-
 	this.speciesColor = ['rgb(202, 24, 146)', 'rgb(242, 142, 67)', 'rgb(29, 144, 156)'];
+
+	this.mdsCenter = {
+		x: 1.0 * $('.mds').width() / 2.0,
+		y: 1.0 * $('.mds').height() / 2.0
+	};
 
 	this.searchControl = {
 		_latinFuser: undefined,
@@ -227,6 +232,34 @@ Control.prototype = {
 	removeSpeciesImageHighlight: function(species) {
 		try {
 			$('#' + species + '_rect').css('stroke', '').css('stroke-width', '');
+		} catch (e) { }
+	},
+
+	mdsPan: function(species) {
+		try {
+			var oldX = parseFloat($('#' + species).attr('x'));
+			var oldY = parseFloat($('#' + species).attr('y'));
+
+			transform = {
+				'x': this.mdsCenter.x - oldX,
+				'y': this.mdsCenter.y - oldY,
+				'k': 1
+			};
+
+			if (isNaN(transform.x) || isNaN(transform.y)) {
+				return;
+			}
+
+			/* Move the elements to center the selected species */
+			d3.selectAll($('#mds-plot > svg')[0].childNodes)
+				.attr("transform", "translate(" + transform.x + "," + transform.y + ")");
+
+			/* Move the zoom as well */
+			Mds_util.zoom.translateBy(d3.select($('#mds-plot > svg')[0]), transform.x, transform.y);
+
+			control.mdsCenter.x = oldX;
+			control.mdsCenter.y = oldY;
+
 		} catch (e) { }
 	}
 };

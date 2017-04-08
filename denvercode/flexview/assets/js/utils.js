@@ -408,6 +408,7 @@ return {
 			//this.populateDistributionLists(control);
 			//$('#dist-radio').prop('disabled', false);
 		}
+		control.mdsPan(li._latin);
 
 	},
 
