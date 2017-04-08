@@ -12,6 +12,12 @@ function Control() {
 	this.mdsShow = true;
 	this.compareDistOneActive = false;
 	this.compareDistTwoActive = false;
+	this.compareType = null;
+
+	this.dist = null;
+	this.first = null;
+	this.second = null;
+
 	this.speciesColor = ['rgb(202, 24, 146)', 'rgb(242, 142, 67)', 'rgb(29, 144, 156)'];
 
 	this.mdsCenter = {
@@ -73,7 +79,7 @@ Control.prototype = {
 				_common: common_name
 			});
 
-			if (vars.lex) {
+			if (vars.compareType === "lex") {
 				$('#lexical-radio').trigger('click');
 
 				if (vars.first) {
@@ -97,22 +103,38 @@ Control.prototype = {
 				}
 			}
 
-			else if (vars.dist) {
-				$('#dist-radio').trigger('click');
-				if (vars.first) {
-				}
-				if (vars.second) {
+			else if (vars.compareType === "dist") {
+				control.dist = true;
+				if (this.searchControl._similarDistributions !== undefined) {
+					$('#dist-radio').trigger('click');
+					if (vars.first) {
+						try {
+							Util.selectSecondSpecies({
+								_id: this.getId(vars.first),
+								_latin:  vars.first,
+								_common: this.getCommonName(vars.first)
+							}, this);
+						} catch(e) {}
+					}
+					if (vars.second) {
+						try {
+							Util.selectThirdSpecies({
+								_id: this.getId(vars.second),
+								_latin: vars.second,
+								_common: this.getCommonName(vars.second)
+							}, this);
+						} catch(e) {
+						}
+					}
 				}
 			}
 		}
-
-
 	},
-
 
 	createURL: function() {
 		var options = {};
 
+		console.log("Compare type = " + control.compareType);
 		if ($('#mds-border').css('display') === 'none') {
 			options.mdsShow = false;
 		} else {
@@ -140,11 +162,12 @@ Control.prototype = {
 		}
 
 		if (this.searchControl._selectedSpecies[1] !== undefined) {
-			options.lex = true;
+			options.compareType = this.compareType;
 			options.first = this.searchControl._selectedSpecies[1]._latin;
 		}
 
 		if (this.searchControl._selectedSpecies[2] !== undefined) {
+			options.compareType = this.compareType;
 			options.second = this.searchControl._selectedSpecies[2]._latin;
 		}
 

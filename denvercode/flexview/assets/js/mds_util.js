@@ -75,8 +75,6 @@ return {
 					.attr('fill', 'none');
 		});
 
-
-
 		/* Highligh the image background if species are selected */
 		for (var i = 0; i < 3; i++) {
 			if (control.searchControl._selectedSpecies[i] !== undefined) {

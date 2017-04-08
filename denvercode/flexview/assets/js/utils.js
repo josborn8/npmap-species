@@ -30,13 +30,34 @@ return {
 
 		self.loadResource('https://nationalparkservice.github.io/npmap-species/atbirecords/most_similar_distribution.json', function(data) {
 			control.searchControl._similarDistributions = data;
-
 			/* If a species is selected before loading this, then populate
 			   the distribution lists and allow comparison by distributions
 			*/
 			if (control.searchControl._selectedSpecies[0] !== undefined) {
 				self.populateDistributionLists(control);
 				$('#dist-radio').prop('disabled', false);
+				if (control.dist) {
+					$('#dist-radio').trigger('click');
+					if (control.first) {
+						try {
+							self.selectSecondSpecies({
+								_id: control.getId(control.first),
+								_latin: control.first,
+								_common: control.getCommonName(control.first),
+							}, control);
+						} catch(e) { }
+					}
+
+					if (control.second) {
+						try {
+							self.selectThirdSpecies({
+								_id: control.getId(control.second),
+								_latin: control.second,
+								_common: control.getCommonName(control.second),
+							}, control);
+						} catch(e) { }
+					}
+				}
 			}
 		});
 
@@ -105,10 +126,13 @@ return {
 		});
 
 		$('#compare-dist-one').on('keypress click', function() {
+			$(this).css('z-index', 1000);
+			$('#compare-dist-two').css('z-index', 0);
 			self.toggleCompareDistOne(control);
 		});
 
 		$('#compare-dist-two').on('keypress click', function() {
+			$(this).css('z-index', 1000);
 			self.toggleCompareDistTwo(control);
 		});
 
@@ -505,11 +529,13 @@ return {
 
 			li1.onclick = li1.onkeypress = function() {
 				self.toggleSearchList(control, 1);
+				control.compareType = "lex";
 				self.selectSecondSpecies(this, control);
 			};
 
 			li2.onclick = li2.onkeypress = function() {
 				self.toggleSearchList(control, 2);
+				control.compareType = "lex";
 				self.selectThirdSpecies(this, control);
 			};
 
@@ -562,11 +588,13 @@ return {
 
 				li1.onclick = li.onkeypress = function() {
 					self.toggleSearchList(control, 1);
+					control.compareType = "lex";
 					self.selectSecondSpecies(this, control);
 				};
 
 				li2.onclick = li2.onkeypress = function() {
 					self.toggleSearchList(control, 2);
+					control.compareType = "lex";
 					self.selectThirdSpecies(this, control);
 				};
 
@@ -581,6 +609,8 @@ return {
 	},
 
 	clearSearch: function(control) {
+		control.compareType = null;
+
 		// remove all selected species
 		document.getElementById('search-initial-dropdown').children[0]
 			.innerHTML = '';
@@ -713,13 +743,13 @@ return {
 	},
 
 	clearComparisons: function(control) {
+		control.compareType = null;
 		this.clearCompareOne(control);
 		this.clearCompareTwo(control);
 		$('#color-legend').stop();
 		$('#color-legend').animate({height:'100px'});
 
-		if(control.searchControl._similarDistribution !== undefined)
-			this.populateDistributionLists(control);
+		this.populateDistributionLists(control);
 	},
 
 	clearCompareOne: function(control) {
@@ -776,11 +806,13 @@ return {
 			}
 		}
 
-		if(control.searchControl._similarDistribution !== undefined)
-			this.populateDistributionLists(control);
+		this.populateDistributionLists(control);
 	},
 
 	populateDistributionLists: function(control) {
+		if (control.searchControl._similarDistributions === undefined)
+			return;
+
 		var self = this;
 		document.getElementById('compare-dist-one').children[2].innerHTML = '';
 		document.getElementById('compare-dist-two').children[2].innerHTML = '';
@@ -788,7 +820,6 @@ return {
 		if(control.searchControl._selectedSpecies[0] === undefined) {
 			return;
 		}
-
 		var sp = control.searchControl._selectedSpecies[0]._latin,
 		results = control.searchControl._similarDistributions[sp],
 		found = [
@@ -848,6 +879,7 @@ return {
 			}
 
 			li.onclick = li.onkeypress = function() {
+				control.compareType = "dist";
 				self.selectSecondSpecies(this, control);
 			};
 			document.getElementById('compare-dist-one').children[2].appendChild(li);
@@ -866,6 +898,7 @@ return {
 			}
 
 			li.onclick = li.onkeypress = function() {
+				control.compareType = "dist";
 				self.selectThirdSpecies(this, control);
 			};
 			document.getElementById('compare-dist-two').children[2].appendChild(li);
@@ -942,8 +975,7 @@ return {
 			}
 		}
 
-		if(control.searchControl._similarDistribution !== undefined)
-			this.populateDistributionLists(control);
+		this.populateDistributionLists(control);
 	},
 
 	distFocus: function(control) {
@@ -1030,6 +1062,7 @@ return {
 		}
 
 		control.highlightSpeciesImage(li._latin, control.speciesColor[1]);
+
 		/*
 		document.getElementById('legend-orange-contents-name').innerHTML = li.innerHTML;
 		document.getElementById('legend-orange-contents-name').title = li.title;
@@ -1087,10 +1120,7 @@ return {
 		//findAUC(1, li._latin);
 
 		$('input', '#legend-orange-control.searchControls').prop('checked', true);
-
-		if (false) {
-			this.populateDistributionLists(control);
-		}
+		this.populateDistributionLists(control);
 	},
 
 	selectThirdSpecies: function(li, control) {
@@ -1177,9 +1207,7 @@ return {
 		//findAUC(2, li._latin);
 
 		$('input', '#legend-blue-controls').prop('checked', true);
-
-		if(control.searchControl._similarDistribution !== undefined)
-			this.populateDistributionLists(control);
+		this.populateDistributionLists(control);
 	},
 };
 });
