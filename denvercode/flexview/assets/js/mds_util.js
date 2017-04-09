@@ -83,8 +83,7 @@ return {
 					control.speciesColor[i]
 				);
 			}
-
-			}
+		}
 
 		if (control.searchControl._selectedSpecies[0] !== undefined)
 			control.mdsPan(control.searchControl._selectedSpecies[0]._latin);
