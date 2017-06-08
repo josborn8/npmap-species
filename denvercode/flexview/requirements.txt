@@ -7,6 +7,3 @@ Werkzeug==0.11.15
 
 # For a REST-like interface in Django
 django-tastypie==0.13.3
-
-# Used to execute Node.js scripts
-Naked==0.1.31
